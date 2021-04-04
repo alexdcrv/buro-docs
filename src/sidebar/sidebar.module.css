@@ -1,0 +1,16 @@
+.container {
+	min-width:150px;
+	margin-top:0;
+	max-width:fit-content;
+	height:100vh;
+	border-right:1px solid grey
+}
+.folder {
+	display:flex;
+	padding:15px;
+	align-items:center;
+	font-family:SuisseIntlLight
+}
+.files {
+	margin-left:30px
+}
