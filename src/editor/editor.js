@@ -1,5 +1,5 @@
 import React from 'react'
-import {EditorState, getDefaultKeyBinding,RichUtils,convertFromRaw,AtomicBlockUtils, convertToRaw} from 'draft-js'
+import {EditorState, getDefaultKeyBinding,RichUtils} from 'draft-js'
 import Editor, { composeDecorators } from '@draft-js-plugins/editor';
 import imageUpload from './fileUpload';
 import createImagePlugin from '@draft-js-plugins/image';
@@ -18,7 +18,7 @@ const focusPlugin = createFocusPlugin();
 const resizeablePlugin = createResizeablePlugin();
 const blockDndPlugin = createBlockDndPlugin();
 const alignmentPlugin = createAlignmentPlugin();
-const { AlignmentTool } = alignmentPlugin;
+// const { AlignmentTool } = alignmentPlugin;
 const decorator = composeDecorators(
 	resizeablePlugin.decorator,
 	alignmentPlugin.decorator,
@@ -179,8 +179,7 @@ class TextEditor extends React.Component {
 			</div>
 			 
 
-			<div dangerouslySetInnerHTML={{__html: htmlState}}>	
-			</div>
+			
 		  
 		</div>
 	  );
