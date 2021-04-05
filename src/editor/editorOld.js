@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import {EditorState, getDefaultKeyBinding,RichUtils} from 'draft-js'
 import Editor, { composeDecorators } from '@draft-js-plugins/editor';
 import imageUpload from './fileUpload';
@@ -13,7 +13,6 @@ import './editor.css'
 import ImageAdd from './imageAddFunc'
 
 
-const TextEditor =()=> {
 
 const focusPlugin = createFocusPlugin();
 const resizeablePlugin = createResizeablePlugin();
@@ -41,14 +40,22 @@ const decorator = composeDecorators(
 	resizeablePlugin,
 	imagePlugin,
   ];
-
-	const [editorState, setEditorState] = useState(EditorState.createEmpty())
-	const [htmlState, setHtmlState] = useState('')
-	const [className, setClassName] = useState('')	
-	  const focus = (e) => e.target.focus();
-	  const onChange = (editorState) => {
-		setEditorState(editorState)
-		console.log(editorState) 
+class TextEditor extends React.Component {
+	constructor(props) {
+	  super(props);
+	
+	  this.state = {
+			editorState: EditorState.createEmpty(),
+		  htmlState: ''
+		};
+		
+	  this.focus = () => this.editor.focus();
+	  this.onChange = (editorState) => {
+		
+		// const contentState = editorState;
+		// let html = stateToHTML(contentState.getCurrentContent())
+		this.setState({editorState})
+		console.log(this.state.htmlState) 
 		let options = {
 			entityStyleFn: (entity) => {
 			  const entityType = entity.get('type').toLowerCase();
@@ -60,22 +67,30 @@ const decorator = composeDecorators(
 					src: data.src,
 					width: data.width*10
 				  },
+				  style: {
+
+				  },
 				};
 			  }
 			},
 		  };
-		  let html = stateToHTML(editorState.getCurrentContent(), options);
-		 setHtmlState(html)
-			console.log(htmlState) 
+		  let html = stateToHTML(this.state.editorState.getCurrentContent(), options);
+		  this.setState({htmlState:html})
+			console.log(this.state.htmlState) 
 		
 	};
-	 
 	
+	  this.handleKeyCommand = this._handleKeyCommand.bind(this);
+	  this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);
+	  this.toggleBlockType = this._toggleBlockType.bind(this);
+	  this.toggleInlineStyle = this._toggleInlineStyle.bind(this);
+	 
+	}
 
-	const handleKeyCommand =(command, editorState)=> {
+	_handleKeyCommand(command, editorState) {
 	  const newState = RichUtils.handleKeyCommand(editorState, command);
 	  if (newState) {
-		onChange(newState);
+		this.onChange(newState);
 	
 		return true;
 	  }
@@ -83,84 +98,93 @@ const decorator = composeDecorators(
 	}
 	
 
-	const mapKeyToEditorCommand=(e)=> {
-	  if (e.keyCode === 9) {
+	_mapKeyToEditorCommand(e) {
+	  if (e.keyCode === 9 /* TAB */) {
 		const newEditorState = RichUtils.onTab(
-		  e, editorState, 4,
+		  e,
+		  this.state.editorState,
+		  4, /* maxDepth */
 		);
-		if (newEditorState !== editorState) {
-		  onChange(newEditorState);
+		if (newEditorState !== this.state.editorState) {
+		  this.onChange(newEditorState);
 		}
 		return;
 	  }
 	  return getDefaultKeyBinding(e);
 	}
 
-	const toggleBlockType =(blockType)=> {
-	  onChange(
+	_toggleBlockType(blockType) {
+	  this.onChange(
 		RichUtils.toggleBlockType(
-		  editorState,
+		  this.state.editorState,
 		  blockType
 		)
 	  );
 	}
 
-	const toggleInlineStyle=(inlineStyle)=> {
-	  onChange(
+	_toggleInlineStyle(inlineStyle) {
+	  this.onChange(
 		RichUtils.toggleInlineStyle(
-		  editorState,
+		  this.state.editorState,
 		  inlineStyle
 		)
 	  );
 	}
-	useEffect(()=>{
-		setClassName ('RichEditor-editor')
-		let contentState = editorState.getCurrentContent();
-		if (!contentState.hasText()) {
-			if (contentState.getBlockMap().first().getType() !== 'unstyled') {
-			setClassName (className+' RichEditor-hidePlaceholder');
-			}
+
+	render() {
+	  const {editorState} = this.state;
+	  const {htmlState} = this.state;
+	  console.log(htmlState)
+	  // If the user changes block type before entering any text, we can
+	  // either style the placeholder or hide it. Let's just hide it now.
+	  let className = 'RichEditor-editor';
+	  var contentState = editorState.getCurrentContent();
+	  if (!contentState.hasText()) {
+		if (contentState.getBlockMap().first().getType() !== 'unstyled') {
+		  className += ' RichEditor-hidePlaceholder';
+		}
 	  }
-	})
-	  
 
 	  return (
 		<div className="RichEditor-root">
 		  <BlockStyleControls
 			editorState={editorState}
-			onToggle={toggleBlockType}
+			onToggle={this.toggleBlockType}
 		  />
 		  <div style={{display:'flex'}}>
 			   <InlineStyleControls
 			editorState={editorState}
-			onToggle={toggleInlineStyle}
+			onToggle={this.toggleInlineStyle}
 		  /> <ImageAdd
 				editorState={editorState}
-				onChange={onChange}
+				onChange={this.onChange}
 				modifier={imagePlugin.addImage}
         />
-		<div>Сохранить</div>
 		  </div>
 		 
-		<div className={className} onClick={focus}>
+		  <div className={className} onClick={this.focus}>
 			<Editor
 			  blockStyleFn={getBlockStyle}
 			  customStyleMap={styleMap}
 			  editorState={editorState}
-			  handleKeyCommand={handleKeyCommand}
-			  keyBindingFn={mapKeyToEditorCommand}
-			  onChange={onChange}
+			  handleKeyCommand={this.handleKeyCommand}
+			  keyBindingFn={this.mapKeyToEditorCommand}
+			  onChange={this.onChange}
 			  spellCheck={true}
 			  plugins={plugins}
-			//   ref={(element) => {
-			// 	editor = element;
-			//   }}
+			  ref={(element) => {
+				this.editor = element;
+			  }}
 			/>
 			</div>
+			 
+
+			
+		  
 		</div>
 	  );
 	}
-  
+  }
 
   // Custom overrides for "code" style.
   const styleMap = {
@@ -180,31 +204,7 @@ const decorator = composeDecorators(
 	}
   }
 
-//   const StyleButton =(props)=> {
-// 	  const [className,setClassName] =useState('')
-// 	  const onToggle = (e) => {
-// 		  console.log(e.target)
-// 		e.preventDefault();
-// 		onToggle(props.style);
-// 	  };
-	
-
-// 	useEffect(()=>{
-// 		setClassName('RichEditor-styleButton')
-// 		if (props.active) {
-// 			setClassName(className += ' RichEditor-activeButton')
-// 		}
-// 	})
-	 
-
-// 	  return (
-// 		<span className={className} tabIndex={1} onMouseDown={(e)=>onToggle(e)}>
-// 		  {props.label}
-// 		</span>
-// 	  );
-// 	}
-  
-class StyleButton extends React.Component {
+  class StyleButton extends React.Component {
 	constructor() {
 	  super();
 	  this.onToggle = (e) => {
@@ -226,6 +226,7 @@ class StyleButton extends React.Component {
 	  );
 	}
   }
+
   const BLOCK_TYPES = [
 	{label: 'Заголовок', style: 'header-one'},
 	{label: 'Подаголовок', style: 'header-two'},

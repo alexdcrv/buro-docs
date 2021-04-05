@@ -1,5 +1,8 @@
 .App {
  display: flex;
+ /* grid-template-columns: max-content 1fr;
+ overflow: hidden;
+ grid-template-areas: 'sidebar editor'; */
 }
 .file {
   text-align: center;
