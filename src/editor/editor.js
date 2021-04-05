@@ -10,7 +10,7 @@ import createBlockDndPlugin from '@draft-js-plugins/drag-n-drop';
 import createDragNDropUploadPlugin from '@draft-js-plugins/drag-n-drop-upload';
 import {stateToHTML} from "draft-js-export-html"
 import './editor.css'
-import ImageAdd from './imageAdd'
+import ImageAdd from './imageAddFunc'
 
 
 
@@ -155,9 +155,9 @@ class TextEditor extends React.Component {
 			editorState={editorState}
 			onToggle={this.toggleInlineStyle}
 		  /> <ImageAdd
-          editorState={this.state.editorState}
-          onChange={this.onChange}
-          modifier={imagePlugin.addImage}
+				editorState={editorState}
+				onChange={this.onChange}
+				modifier={imagePlugin.addImage}
         />
 		  </div>
 		 
@@ -169,7 +169,6 @@ class TextEditor extends React.Component {
 			  handleKeyCommand={this.handleKeyCommand}
 			  keyBindingFn={this.mapKeyToEditorCommand}
 			  onChange={this.onChange}
-
 			  spellCheck={true}
 			  plugins={plugins}
 			  ref={(element) => {

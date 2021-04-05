@@ -4,10 +4,13 @@ import {SEND_IMAGE,EDIT_FILE,GET_ONE_FILE,CREATE_FILE} from '../types'
 
 
 const initialState = {
-	imgResponse:false,
+	imgResponse:{
+        msg:'',
+        filename:''
+    },
 	fileResponse: '',
 	file:null,
-    htmlStatus: ''
+    htmlStatus: true
 }
 
 export default function(state = initialState, action) {
@@ -25,7 +28,6 @@ export default function(state = initialState, action) {
             case SEND_IMAGE:
                 return {
                     ...state,
-				
                     imgResponse: payload
                 }
             case CREATE_FILE:

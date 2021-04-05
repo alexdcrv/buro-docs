@@ -4,9 +4,13 @@ import {useSelector} from 'react-redux'
 import TextEditor from './editor/editor';
 import Sidebar from './sidebar/sidebar';
 import StaticContent from './static/static';
+import { useEffect } from 'react';
 
 function App() {
-  const htmlStatus = useSelector(state => state.fileSystem.htmlStatus)
+  const htmlStatus = useSelector(state => state.dataOperations.htmlStatus)
+  useEffect(() => {
+    console.log(htmlStatus)
+  }, [])
   return (
     <div className="App">
       <Sidebar/>

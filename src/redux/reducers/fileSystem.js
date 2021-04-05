@@ -16,26 +16,25 @@ export default function(state = initialState, action) {
     } = action;
 
     switch(type){
-      
-            case GET_FOLDERS:
+        case GET_FOLDERS:
+            return {
+                ...state,
+                folders: payload,
+            }
+        case CREATE_FOLDER:
                 return {
                     ...state,
                     folders: payload,
                 }
-            case CREATE_FOLDER:
-                    return {
-                        ...state,
-                        folders: payload,
-                    }
-            case GET_FILES_INSIDE:
-                return {
-                    ...state,
-                    files: payload 
- 
-                }
-                
-            default: 
-                return state;
+        case GET_FILES_INSIDE:
+            return {
+                ...state,
+                files: payload 
+
+            }
+            
+        default: 
+            return state;
     }
 
 } 

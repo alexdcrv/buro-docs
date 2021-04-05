@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
+
+import { imageUpload } from '../redux/actions/dataOperations';
 import styles from './styles.module.css';
 
+// const dispatch = useDispatch()
 export default class ImageAdd extends Component {
   // Start the popover closed
   state = {
     url: '',
     open: false,
   };
-
+  
   // When the popover is open and users click anywhere on the page,
   // the popover should close
   componentDidMount() {
@@ -49,7 +52,10 @@ export default class ImageAdd extends Component {
 
   changeUrl = (evt) => {
 
-    this.setState({ url: evt.target.value });
+    console.log(evt.target.files[0])
+    // this.props.store.dispatch(imageUpload(evt.target.files[0]))
+    // dispatch()
+    // this.setState({ url: evt.target.value });
   };
 
   render() {
@@ -78,7 +84,7 @@ export default class ImageAdd extends Component {
             value={this.state.url}
           /> */}
           <input
-            type="text"
+            type="file"
             placeholder="Paste the image url …"
             className={styles.addImageInput}
             onChange={this.changeUrl}
