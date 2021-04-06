@@ -7,6 +7,7 @@
   }
   .button {
 	  cursor: pointer;
+	  font-size:14px
   }
   .addImagePopover {
 	margin-top: 10px;

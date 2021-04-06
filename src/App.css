@@ -4,8 +4,14 @@
  overflow: hidden;
  grid-template-areas: 'sidebar editor'; */
 }
-.file {
+.File {
   text-align: center;
+  position: absolute;
+  left: 40vw;
+  transform: translateX(-50%);
+  top: 40vh;
+  transform: translateY(-50%);
+  font-family: SuisseIntlSemibold;
 }
 .App-logo {
   height: 40vmin;

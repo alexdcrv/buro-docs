@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {EditorState, getDefaultKeyBinding,RichUtils} from 'draft-js'
+import {ContentState, convertFromHTML, EditorState, getDefaultKeyBinding,RichUtils} from 'draft-js'
 import Editor, { composeDecorators } from '@draft-js-plugins/editor';
 import imageUpload from './fileUpload';
 import createImagePlugin from '@draft-js-plugins/image';
@@ -11,40 +11,44 @@ import createDragNDropUploadPlugin from '@draft-js-plugins/drag-n-drop-upload';
 import {stateToHTML} from "draft-js-export-html"
 import './editor.css'
 import ImageAdd from './imageAddFunc'
+import { useDispatch, useSelector } from 'react-redux';
+import { fileSave } from '../redux/actions/dataOperations';
 
 
 const TextEditor =()=> {
-
-const focusPlugin = createFocusPlugin();
-const resizeablePlugin = createResizeablePlugin();
-const blockDndPlugin = createBlockDndPlugin();
-const alignmentPlugin = createAlignmentPlugin();
-// const { AlignmentTool } = alignmentPlugin;
-const decorator = composeDecorators(
-	resizeablePlugin.decorator,
-	alignmentPlugin.decorator,
-	focusPlugin.decorator,
-	blockDndPlugin.decorator
-  );
-  const imagePlugin = createImagePlugin({ decorator });
-  
-  const dragNDropFileUploadPlugin = createDragNDropUploadPlugin({
-	handleUpload: imageUpload,
-	addImage: imagePlugin.addImage,
-  });
-  
-  const plugins = [
-	dragNDropFileUploadPlugin,
-	blockDndPlugin,
-	focusPlugin,
-	alignmentPlugin,
-	resizeablePlugin,
-	imagePlugin,
-  ];
-
-	const [editorState, setEditorState] = useState(EditorState.createEmpty())
+	const focusPlugin = createFocusPlugin();
+	const resizeablePlugin = createResizeablePlugin();
+	const blockDndPlugin = createBlockDndPlugin();
+	const alignmentPlugin = createAlignmentPlugin();
+	// const { AlignmentTool } = alignmentPlugin;
+	const decorator = composeDecorators(
+		resizeablePlugin.decorator,
+		alignmentPlugin.decorator,
+		focusPlugin.decorator,
+		blockDndPlugin.decorator
+	);
+	const [editorState, setEditorState] = useState('')
+	const imagePlugin = createImagePlugin({ decorator });
+	
+	const dragNDropFileUploadPlugin = createDragNDropUploadPlugin({
+		handleUpload: imageUpload,
+		addImage: imagePlugin.addImage,
+	});
+	
+	const plugins = [
+		dragNDropFileUploadPlugin,
+		blockDndPlugin,
+		focusPlugin,
+		alignmentPlugin,
+		resizeablePlugin,
+		imagePlugin,
+	];
+	const dispatch = useDispatch()
+	
 	const [htmlState, setHtmlState] = useState('')
-	const [className, setClassName] = useState('')	
+
+	const [className, setClassName] = useState('')
+	const file = useSelector (state => state.dataOperations.file)
 	  const focus = (e) => e.target.focus();
 	  const onChange = (editorState) => {
 		setEditorState(editorState)
@@ -66,11 +70,27 @@ const decorator = composeDecorators(
 		  };
 		  let html = stateToHTML(editorState.getCurrentContent(), options);
 		 setHtmlState(html)
-			console.log(htmlState) 
+			// console.log(htmlState) 
 		
 	};
-	 
 	
+	useEffect(()=>{
+		if(file!=='') {
+			const blocksFromHTML = convertFromHTML(file.html);
+			const state = ContentState.createFromBlockArray(
+			  blocksFromHTML.contentBlocks,
+			  blocksFromHTML.entityMap,
+			);
+			setEditorState(EditorState.createWithContent(state))
+			
+		}
+		else if(file==='') {
+		
+			setEditorState(EditorState.createEmpty())
+			
+		}
+		
+	},[])
 
 	const handleKeyCommand =(command, editorState)=> {
 	  const newState = RichUtils.handleKeyCommand(editorState, command);
@@ -81,7 +101,9 @@ const decorator = composeDecorators(
 	  }
 	  return false;
 	}
-	
+	const saveFile =()=>{
+		dispatch(fileSave(file.folder,file.name,editorState,htmlState))
+	}
 
 	const mapKeyToEditorCommand=(e)=> {
 	  if (e.keyCode === 9) {
@@ -114,32 +136,38 @@ const decorator = composeDecorators(
 	  );
 	}
 	useEffect(()=>{
-		setClassName ('RichEditor-editor')
-		let contentState = editorState.getCurrentContent();
-		if (!contentState.hasText()) {
-			if (contentState.getBlockMap().first().getType() !== 'unstyled') {
-			setClassName (className+' RichEditor-hidePlaceholder');
-			}
+		console.log(plugins)
+		if(editorState!==''){
+				setClassName ('RichEditor-editor')
+				let contentState = editorState.getCurrentContent();
+				if (!contentState.hasText()) {
+					if (contentState.getBlockMap().first().getType() !== 'unstyled') {
+					setClassName (className+' RichEditor-hidePlaceholder');
+					}
+				}
+	
 	  }
-	})
+	},[])
 	  
 
-	  return (
-		<div className="RichEditor-root">
+	  return (<>
+	  
+		{editorState!=='' && <div className="RichEditor-root">
 		  <BlockStyleControls
 			editorState={editorState}
 			onToggle={toggleBlockType}
 		  />
-		  <div style={{display:'flex'}}>
+		  <div style={{display:'flex',borderBottom: '1px solid #999', marginBottom:'50px'}}>
 			   <InlineStyleControls
-			editorState={editorState}
-			onToggle={toggleInlineStyle}
-		  /> <ImageAdd
+					editorState={editorState}
+					onToggle={toggleInlineStyle}
+				/> 
+				<ImageAdd
 				editorState={editorState}
 				onChange={onChange}
 				modifier={imagePlugin.addImage}
         />
-		<div>Сохранить</div>
+		<div className='RichEditor-styleButton'onClick={saveFile} style={{marginLeft:'15px',fontSize:'14px', color:'black'}}>Сохранить</div>
 		  </div>
 		 
 		<div className={className} onClick={focus}>
@@ -152,12 +180,11 @@ const decorator = composeDecorators(
 			  onChange={onChange}
 			  spellCheck={true}
 			  plugins={plugins}
-			//   ref={(element) => {
-			// 	editor = element;
-			//   }}
+			  ref={(element) => element}
 			/>
 			</div>
-		</div>
+		</div>}
+		</>
 	  );
 	}
   
@@ -236,26 +263,29 @@ class StyleButton extends React.Component {
   ];
 
   const BlockStyleControls = (props) => {
-	const {editorState} = props;
-	const selection = editorState.getSelection();
-	const blockType = editorState
-	  .getCurrentContent()
-	  .getBlockForKey(selection.getStartKey())
-	  .getType();
+	if(props.editorState!==''){
+		const {editorState} = props;
+		const selection = editorState.getSelection();
+		const blockType = editorState
+		.getCurrentContent()
+		.getBlockForKey(selection.getStartKey())
+		.getType();
 
-	return (
-	  <div className="RichEditor-controls">
-		{BLOCK_TYPES.map((type) =>
-		  <StyleButton
-			key={type.label}
-			active={type.style === blockType}
-			label={type.label}
-			onToggle={props.onToggle}
-			style={type.style}
-		  />
-		)}
-	  </div>
-	);
+		return (
+		<div className="RichEditor-controls">
+			{BLOCK_TYPES.map((type) =>
+			<StyleButton
+				key={type.label}
+				active={type.style === blockType}
+				label={type.label}
+				onToggle={props.onToggle}
+				style={type.style}
+			/>
+			)}
+		</div>
+		);
+	}
+		
   };
 
   var INLINE_STYLES = [
@@ -266,21 +296,22 @@ class StyleButton extends React.Component {
   ];
  
   const InlineStyleControls = (props) => {
-	const currentStyle = props.editorState.getCurrentInlineStyle();
-	
-	return (
-	  <div className="RichEditor-controls">
-		{INLINE_STYLES.map((type) =>
-		  <StyleButton
-			key={type.label}
-			active={currentStyle.has(type.style)}
-			label={type.label}
-			onToggle={props.onToggle}
-			style={type.style}
-		  />
-		)}
-	  </div>
-	);
+	if(props.editorState!==''){
+		const currentStyle = props.editorState.getCurrentInlineStyle();
+		return (
+		<div className="RichEditor-controls">
+			{INLINE_STYLES.map((type) =>
+			<StyleButton
+				key={type.label}
+				active={currentStyle.has(type.style)}
+				label={type.label}
+				onToggle={props.onToggle}
+				style={type.style}
+			/>
+			)}
+		</div>
+		);
+	}
   };
 
 

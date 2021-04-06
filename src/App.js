@@ -13,7 +13,7 @@ function App() {
     <div className="App">
       <Sidebar/>
       {
-        htmlStatus?<TextEditor/>:!htmlStatus?<StaticContent/>:<div className="File">Выберите файл для просмотра или редактирования</div>
+        htmlStatus===2?<TextEditor/>:htmlStatus===1?<StaticContent/>:<div className="File">Выберите файл для просмотра или редактирования</div>
       }
 
     </div>

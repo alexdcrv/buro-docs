@@ -1,5 +1,5 @@
 import { innerBackend } from "../../utils/axios";
-import { CREATE_FILE, SEND_IMAGE } from "../types";
+import { CREATE_FILE,SAVE_FILE, EDIT_FILE, GET_ONE_FILE, SEND_IMAGE } from "../types";
 
 
 
@@ -31,14 +31,49 @@ export const imageUpload = (file) => async dispatch  => {
 	  } 
   
   }
-  export const fileAdd = (fileNameInput) => async dispatch  => {
+  
+  export const getStaticFile = (file,dirname) => async dispatch  => {
+	console.log(dirname, file)
+  let body ={
+	 filepath:`${dirname}/${file}`
+	  
+  }
+
+  try {
+	
+	  const res = await innerBackend.put(`docs/read`, body) 
+	  console.log(res)
+	  dispatch({
+		  type: GET_ONE_FILE,
+		  payload: res.data
+		 
+	  })
+	  
+
+	}
+	catch (err) {
+	  alert('ОШИБКА')
+		  
+	} 
+
+}
+  export const fileAdd = (fileNameInput,dirname) => async dispatch  => {
+	  console.log(dirname, fileNameInput)
 	let body ={
-		dirname: fileNameInput
+		dir: dirname,
+		text: {
+			folder:dirname,
+			name:fileNameInput,
+			html: '',
+			editorState:''
+		},
+		filename: fileNameInput,
+		
 	}
 
 	try {
 	
-		const res = await innerBackend.put(`docs/mkdir`, body)
+		const res = await innerBackend.post(`docs/filepost`, body)
 		dispatch({
 			type: CREATE_FILE,
 			payload: res.data
@@ -51,4 +86,41 @@ export const imageUpload = (file) => async dispatch  => {
 			
 	  } 
   
+  }
+  export const fileSave = (dirname,fileName,editorState,html) => async dispatch  => {
+
+	let body ={
+		dir: dirname,
+		text: {
+			folder: dirname,
+			name:fileName,
+			html: html,
+			editorState: editorState
+		},
+		filename: fileName,
+		
+	}
+
+	try {
+	
+		const res = await innerBackend.post(`docs/editfile`, body)
+		dispatch({
+			type: SAVE_FILE,
+			payload: res.data
+		})
+	
+  
+	  }
+	  catch (err) {
+		alert('ОШИБКА')
+			
+	  } 
+  
+  }
+  export const fileEdit = () => async dispatch  => {
+
+		dispatch({
+			type: EDIT_FILE,
+		})
+	
   }

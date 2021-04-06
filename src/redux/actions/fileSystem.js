@@ -1,7 +1,7 @@
 
 
 import { innerBackend } from "../../utils/axios";
-import { CREATE_FOLDER } from "../types";
+import { CREATE_FOLDER, GET_FOLDERS } from "../types";
 
 
 
@@ -26,4 +26,21 @@ export const folderAdd = (folderInput) => async dispatch  => {
 	  } 
   
   }
+  export const getFolders = () => async dispatch  => {
+
+	try {
+	
+		const res = await innerBackend.get('docs/directory')
+		dispatch({
+			type: GET_FOLDERS,
+			payload: res.data
+		})
+	
   
+	  }
+	  catch (err) {
+		alert('ОШИБКА')
+			
+	  } 
+  
+  }

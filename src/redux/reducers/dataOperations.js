@@ -1,5 +1,5 @@
 
-import {SEND_IMAGE,EDIT_FILE,GET_ONE_FILE,CREATE_FILE} from '../types'
+import {SEND_IMAGE,EDIT_FILE,GET_ONE_FILE, SAVE_FILE} from '../types'
 
 
 
@@ -9,8 +9,8 @@ const initialState = {
         filename:''
     },
 	fileResponse: '',
-	file:null,
-    htmlStatus: true
+	file:'',
+    htmlStatus: 0
 }
 
 export default function(state = initialState, action) {
@@ -23,30 +23,31 @@ export default function(state = initialState, action) {
 				return {
 					...state,
 					file: payload,
-					htmlStatus: false
+					htmlStatus: 1
 				}
             case SEND_IMAGE:
                 return {
                     ...state,
                     imgResponse: payload
                 }
-            case CREATE_FILE:
+            case SAVE_FILE:
                 return {
                     ...state,
-					file: payload
-                }
+                    htmlStatus: 1,
+                    file: payload
+                }  
             case EDIT_FILE:
                 return {
                     ...state,
-                    file: payload,
-					htmlStatus: true
+
+					htmlStatus:2
                 }
-			case EDIT_FILE:
-				return {
-					...state,
-					file: payload,
-					htmlStatus: true
-				} 
+			// case EDIT_FILE:
+			// 	return {
+			// 		...state,
+			// 		file: payload,
+			// 		htmlStatus: true
+			// 	} 
             default: 
                 return state;
     }

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import style from './sidebar.module.css'
 import {useDispatch, useSelector} from 'react-redux'
-import { folderAdd } from "../redux/actions/fileSystem"
-import { fileAdd } from "../redux/actions/dataOperations"
+import { folderAdd, getFolders } from "../redux/actions/fileSystem"
+import { fileAdd, getStaticFile } from "../redux/actions/dataOperations"
 const Sidebar =()=>{
 	const [input, setInput] = useState(false)
 	const [fileInput, setFileInput] = useState(false)
@@ -15,35 +15,43 @@ const Sidebar =()=>{
 	useEffect(() => {
 		console.log(foldersList)
 	}, [foldersList])
+	useEffect(() => {
+		dispatch(getFolders())	
+	}, [])
 	const addFolder =()=>{
 		dispatch(folderAdd(folderInput))
 		setFolderInput('')
 		setInput(false)
 	}
-	const addFile =()=>{
-		dispatch(fileAdd(fileNameInput))
+
+	const addFile =(dirname)=>{
+		dispatch(fileAdd(fileNameInput,dirname))
 		setFileNameInput('')
 		setFileInput(false)
 	}
+	const getFile =(file, dirname)=>{
+		dispatch(getStaticFile(file, dirname))
+	}
+	
 	return(
 		<div className={style.container} >
 			
 				{
-					foldersList.map((el,i)=>{
+					foldersList.map((folderN,i)=>{
 						return(
-							<div>
+							<div key={i}style={{display:`${i===0?'none':'block'}`}}>
 								<div onClick={()=>setFolder(i)} className={style.folder} >
 									<img alt='open' src='/openicon.png'style={{width:'10px',transform: `rotate(${folder===i?'180deg':'90deg'})`}}/>
 									<div key={i} style={{marginLeft:'5px'}}>
-										{el.dirname}
+										{folderN.dirname}
 									</div>
 								</div>
 								<div className={style.files} >
 									{folder===i?
-										el.files.map((el,i)=>{
+										folderN.files.map((file,i)=>{
 											return(
-												<div key={i} style={{marginRight:'10px'}}>
-													{el}
+												<div onClick={()=>getFile(file,folderN.dirname)} key={i} style={{marginRight:'10px'}}>
+													{file}
 												</div>
 											)
 										}):''
@@ -57,14 +65,14 @@ const Sidebar =()=>{
 								</div>
 								<div style={{display:`${!fileInput?'none':'flex'}`, padding:'5px'}}>
 									<input 
-									style={{marginRight:'9px'}}
+									style={{marginLeft:'23px'}}
 									placeholder='Введите название файла'
-									value={folderInput}
-									onChange={(e)=>{setFolderInput(e.target.value)}}
-									onKeyPress={(e)=>e.key==='Enter'?addFile:''}/>
+									value={fileNameInput}
+									onChange={(e)=>{setFileNameInput(e.target.value)}}
+									onKeyPress={(e)=>e.key==='Enter'?addFile(folderN.dirname):''}/>
 								</div>
-								<p 	onClick={addFile}
-									style={{display:`${!fileInput?'none':'block'}`,marginLeft:'10px',marginTop:'-2px',fontSize:'14px',textAlign:'right', cursor:'pointer'}}>Сохранить
+								<p 	onClick={()=>addFile(folderN.dirname)}
+									style={{display:`${!fileInput?'none':'block'}`,marginTop:'-2px',fontSize:'12px',textAlign:'right', cursor:'pointer'}}>Сохранить
 								</p>
 								</>
 								:''}
@@ -78,14 +86,14 @@ const Sidebar =()=>{
 				</div>
 				<div style={{display:`${!input?'none':'flex'}`, padding:'5px'}}>
 					<input 
-					style={{marginRight:'9px', width:'80%'}}
+					style={{marginRight:'9px'}}
 					placeholder='Введите название папки'
-					value={fileNameInput}
-					onChange={(e)=>{setFileNameInput(e.target.value)}}
+					value={folderInput}
+					onChange={(e)=>{setFolderInput(e.target.value)}}
 					onKeyPress={(e)=>e.key==='Enter'?addFolder:''}/>
 				</div>
-				<p 	onClick={addFolder}
-					style={{display:`${!input?'none':'block'}`,marginLeft:'10px',marginTop:'-2px',fontSize:'14px',textAlign:'right', cursor:'pointer'}}>Сохранить
+				<p onClick={addFolder}
+					style={{display:`${!input?'none':'block'}`,marginTop:'-2px',fontSize:'12px',textAlign:'right', cursor:'pointer'}}>Сохранить
 				</p>
 			
 		</div>
