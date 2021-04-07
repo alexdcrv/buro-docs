@@ -21,7 +21,7 @@ function App() {
     if(token) {
      
       if(localStorage.token){
-        console.log('login')
+        // console.log('login')
         setAuth(true)
       }
     }
@@ -29,14 +29,10 @@ function App() {
 
 
   },[token])
-  useEffect(()=>{
-    console.log(permission)
-  },[permission])
+
   useEffect(() => {
-    console.log(localStorage.token)
     setAuthToken(localStorage.token)
     if (localStorage.token!=undefined) {
-      console.log(localStorage.token)
         setAuth(true)
         setTimeout(()=>{
           dispatch(loadPermission())
