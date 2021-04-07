@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {ContentState, convertFromHTML, EditorState, getDefaultKeyBinding,RichUtils} from 'draft-js'
+import {ContentState, convertFromHTML, convertFromRaw, convertToRaw, EditorState, getDefaultKeyBinding,RichUtils} from 'draft-js'
 import Editor, { composeDecorators } from '@draft-js-plugins/editor';
 import imageUpload from './fileUpload';
 import createImagePlugin from '@draft-js-plugins/image';
@@ -13,21 +13,16 @@ import './editor.css'
 import ImageAdd from './imageAddFunc'
 import { useDispatch, useSelector } from 'react-redux';
 import { fileSave } from '../redux/actions/dataOperations';
-
-
-const TextEditor =()=> {
 	const focusPlugin = createFocusPlugin();
 	const resizeablePlugin = createResizeablePlugin();
 	const blockDndPlugin = createBlockDndPlugin();
 	const alignmentPlugin = createAlignmentPlugin();
-	// const { AlignmentTool } = alignmentPlugin;
 	const decorator = composeDecorators(
 		resizeablePlugin.decorator,
 		alignmentPlugin.decorator,
 		focusPlugin.decorator,
 		blockDndPlugin.decorator
 	);
-	const [editorState, setEditorState] = useState('')
 	const imagePlugin = createImagePlugin({ decorator });
 	
 	const dragNDropFileUploadPlugin = createDragNDropUploadPlugin({
@@ -43,10 +38,18 @@ const TextEditor =()=> {
 		resizeablePlugin,
 		imagePlugin,
 	];
+const TextEditor =()=> {
+	
+	// const { AlignmentTool } = alignmentPlugin;
+	
+	const [editorState, setEditorState] = useState('')
+	
+	
+	
 	const dispatch = useDispatch()
 	
 	const [htmlState, setHtmlState] = useState('')
-
+	const [rawState, setRawState] = useState('')
 	const [className, setClassName] = useState('')
 	const file = useSelector (state => state.dataOperations.file)
 	  const focus = (e) => e.target.focus();
@@ -62,25 +65,29 @@ const TextEditor =()=> {
 				  element: 'img',
 				  attributes: {
 					src: data.src,
-					width: data.width*10
+					width: data.width+'%'
 				  },
+				
 				};
 			  }
 			},
 		  };
 		  let html = stateToHTML(editorState.getCurrentContent(), options);
+		  let raw = stateToHTML(editorState.getCurrentContent());
 		 setHtmlState(html)
+		 setRawState(raw)
 			// console.log(htmlState) 
 		
 	};
 	
 	useEffect(()=>{
 		if(file!=='') {
-			const blocksFromHTML = convertFromHTML(file.html);
+			
+			const blocksFromRaw = convertFromHTML(file.editorState)
 			const state = ContentState.createFromBlockArray(
-			  blocksFromHTML.contentBlocks,
-			  blocksFromHTML.entityMap,
-			);
+				blocksFromRaw.contentBlocks,
+				blocksFromRaw.entityMap,
+			  );
 			setEditorState(EditorState.createWithContent(state))
 			
 		}
@@ -102,7 +109,7 @@ const TextEditor =()=> {
 	  return false;
 	}
 	const saveFile =()=>{
-		dispatch(fileSave(file.folder,file.name,editorState,htmlState))
+		dispatch(fileSave(file.folder,file.name,rawState,htmlState))
 	}
 
 	const mapKeyToEditorCommand=(e)=> {
@@ -157,17 +164,17 @@ const TextEditor =()=> {
 			editorState={editorState}
 			onToggle={toggleBlockType}
 		  />
-		  <div style={{display:'flex',borderBottom: '1px solid #999', marginBottom:'50px'}}>
+		  <div style={{display:'flex',borderBottom: '1px solid #999', marginBottom:'20px'}}>
 			   <InlineStyleControls
 					editorState={editorState}
 					onToggle={toggleInlineStyle}
 				/> 
 				<ImageAdd
-				editorState={editorState}
-				onChange={onChange}
-				modifier={imagePlugin.addImage}
+					editorState={editorState}
+					onChange={onChange}
+					modifier={imagePlugin.addImage}
         />
-		<div className='RichEditor-styleButton'onClick={saveFile} style={{marginLeft:'15px',fontSize:'14px', color:'black'}}>Сохранить</div>
+		<div className='RichEditor-styleButton'onClick={saveFile} style={{marginLeft:'15px',marginTop:'0px',fontSize:'14px', color:'black'}}>Сохранить</div>
 		  </div>
 		 
 		<div className={className} onClick={focus}>

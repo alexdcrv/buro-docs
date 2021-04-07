@@ -39,7 +39,7 @@ export const folderAdd = (folderInput) => async dispatch  => {
   
 	  }
 	  catch (err) {
-		alert('ОШИБКА')
+		alert(err)
 			
 	  } 
   

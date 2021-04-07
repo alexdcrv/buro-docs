@@ -10,7 +10,14 @@ const StaticContent =()=>{
 	return(
 		<div className={styles.container}>
 			<div className={styles.edit} onClick={editFile}><img className={styles.img} src='/edit1.jpg'></img>Редактировать</div>
-			{file!==''?<div dangerouslySetInnerHTML={{__html: file.html}}></div>:''}
+			{file.html!==''?
+			<div>
+				<h1 style={{fontSize:'48px'}}>{file.name}</h1>
+				<div dangerouslySetInnerHTML={{__html: file.html}}></div>
+			</div>
+				
+					:`Файл ${file.name} создан. Нажмите кнопку "редактировать" для изменения.`
+			}
 			
 			
 		</div>

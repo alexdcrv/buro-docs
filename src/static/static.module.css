@@ -1,5 +1,17 @@
 .container {
 	padding: 20px;
+	width: 80%;
+	margin-left: 265px;
+}
+.container p {
+	font-family: SuisseIntlLight;
+	margin: 3px;
+}
+.container h1 {
+	font-family: SuisseIntlSemibold;
+}
+.container h2 {
+	font-family: SuisseIntlRegular;
 }
 .img{
 	width: 12px;
@@ -8,4 +20,5 @@
 .edit{
 	font-family: SuisseIntlSemibold;
 	margin-bottom: 50px;
+	cursor: pointer;
 }

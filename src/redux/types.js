@@ -10,3 +10,6 @@ export const SEND_IMAGE = 'SEND_IMAG'
 export const SEND_HTML = 'SEND_HTML'
 export const EDIT_FILE = 'EDIT_FILE'
 export const CREATE_FILE = 'CREATE_FILE'
+//AUTH
+export const AUTH_ERROR = 'AUTH_ERROR'
+export const LOGIN = 'LOGIN'
