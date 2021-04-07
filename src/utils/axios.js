@@ -30,12 +30,3 @@ export const innerBackend = axios.create ({
 
 
 
-
-export const instance = axios.create({
-    baseURL: url,
-    headers: {
-        accept: 'application/json',
-      }})
-
-
-

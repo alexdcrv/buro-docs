@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import {url} from '../utils/axios'
-import { imageUpload } from '../redux/actions/dataOperations';
+import {url} from '../../utils/axios'
+import { imageUpload } from '../../redux/actions/dataOperations';
 import styles from './styles.module.css';
 
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import style from './sidebar.module.css'
 import {useDispatch, useSelector} from 'react-redux'
-import { folderAdd, getFolders } from "../redux/actions/fileSystem"
+import { folderAdd, getFolders } from "../../redux/actions/fileSystem"
 
 import OneFolder from "./oneFolder"
 const Sidebar =()=>{

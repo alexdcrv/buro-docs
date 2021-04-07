@@ -1,9 +1,9 @@
 import {LOGIN} from '../types'
-import {innerBackend, instance, setAuthToken} from '../../components/utils/axios'
+import {innerBackend,  setAuthToken} from '../../components/utils/axios'
 
 export const login = (formData) => async dispatch  => {
     try {
-        const res = await instance.post('/auth', formData)
+        const res = await innerBackend.post('/auth', formData)
         dispatch({
             type: LOGIN,
             payload: res.data

@@ -27,7 +27,6 @@ export default function(state = initialState, action) {
                 // console.log('here is payload',payload) 
 			return {
 				...state,
-				
 				isAuthenticated: false,
 				error: payload.err
 			}

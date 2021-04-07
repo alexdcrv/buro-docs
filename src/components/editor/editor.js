@@ -12,7 +12,7 @@ import {stateToHTML} from "draft-js-export-html"
 import './editor.css'
 import ImageAdd from './imageAddFunc'
 import { useDispatch, useSelector } from 'react-redux';
-import { fileSave } from '../redux/actions/dataOperations';
+import { fileSave } from '../../redux/actions/dataOperations';
 	const focusPlugin = createFocusPlugin();
 	const resizeablePlugin = createResizeablePlugin();
 	const blockDndPlugin = createBlockDndPlugin();

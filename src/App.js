@@ -1,9 +1,9 @@
 
 import './App.css';
 import {useSelector} from 'react-redux'
-import TextEditor from './editor/editor';
-import Sidebar from './sidebar/sidebar';
-import StaticContent from './static/static';
+import TextEditor from './components/editor/editor';
+import Sidebar from './components/sidebar/sidebar';
+import StaticContent from './components/static/static';
 // import { useEffect } from 'react';
 
 function App() {
