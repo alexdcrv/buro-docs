@@ -16,7 +16,7 @@ const StaticContent =()=>{
 				<div dangerouslySetInnerHTML={{__html: file.html}}></div>
 			</div>
 				
-					:`Файл ${file.name} создан. Нажмите кнопку "редактировать" для изменения.`
+					:<div style={{fontFamily:'SuisseIntlLight'}}>Файл {file.name} создан. Нажмите кнопку "редактировать" для изменения.</div>
 			}
 			
 			
