@@ -55,7 +55,7 @@ const TextEditor =()=> {
 	  const focus = (e) => e.target.focus();
 	  const onChange = (editorState) => {
 		setEditorState(editorState)
-		console.log(editorState) 
+		// console.log(editorState) 
 		let options = {
 			entityStyleFn: (entity) => {
 			  const entityType = entity.get('type').toLowerCase();
@@ -143,7 +143,7 @@ const TextEditor =()=> {
 	  );
 	}
 	useEffect(()=>{
-		console.log(plugins)
+		// console.log(plugins)
 		if(editorState!==''){
 				setClassName ('RichEditor-editor')
 				let contentState = editorState.getCurrentContent();

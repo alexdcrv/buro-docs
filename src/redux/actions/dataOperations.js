@@ -33,16 +33,13 @@ export const imageUpload = (file) => async dispatch  => {
   }
   
   export const getStaticFile = (file,dirname) => async dispatch  => {
-	console.log(dirname, file)
   let body ={
-	 filepath:`${dirname}/${file}`
-	  
+	 filepath:`${dirname}/${file}` 
   }
 
   try {
 	
 	  const res = await innerBackend.put(`docs/read`, body) 
-	  console.log(res)
 	  dispatch({
 		  type: GET_ONE_FILE,
 		  payload: res.data
@@ -58,7 +55,6 @@ export const imageUpload = (file) => async dispatch  => {
 
 }
   export const fileAdd = (fileNameInput,dirname) => async dispatch  => {
-	  console.log(dirname, fileNameInput)
 	let body ={
 		dir: dirname,
 		text: {

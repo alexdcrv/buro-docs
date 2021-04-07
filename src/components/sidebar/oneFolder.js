@@ -12,9 +12,6 @@ const OneFolder=({folderN,ind})=>{
 		setFileNameInput('')
 		setFileInput(false)
 	}
-	useEffect(()=>{
-		console.log(folderN)
-	},[])
 	const getFile =(file, dirname)=>{
 		dispatch(getStaticFile(file, dirname))
 	}

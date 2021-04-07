@@ -55,7 +55,7 @@ class TextEditor extends React.Component {
 		// const contentState = editorState;
 		// let html = stateToHTML(contentState.getCurrentContent())
 		this.setState({editorState})
-		console.log(this.state.htmlState) 
+		// console.log(this.state.htmlState) 
 		let options = {
 			entityStyleFn: (entity) => {
 			  const entityType = entity.get('type').toLowerCase();
@@ -76,7 +76,7 @@ class TextEditor extends React.Component {
 		  };
 		  let html = stateToHTML(this.state.editorState.getCurrentContent(), options);
 		  this.setState({htmlState:html})
-			console.log(this.state.htmlState) 
+			// console.log(this.state.htmlState) 
 		
 	};
 	
@@ -134,7 +134,7 @@ class TextEditor extends React.Component {
 	render() {
 	  const {editorState} = this.state;
 	  const {htmlState} = this.state;
-	  console.log(htmlState)
+	//   console.log(htmlState)
 	  // If the user changes block type before entering any text, we can
 	  // either style the placeholder or hide it. Let's just hide it now.
 	  let className = 'RichEditor-editor';

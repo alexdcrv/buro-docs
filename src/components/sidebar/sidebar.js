@@ -12,9 +12,6 @@ const Sidebar =()=>{
 	const foldersList = useSelector(state => state.fileSystem.folders)
 	// const filesList = useSelector(state => state.fileSystem.files)
 	useEffect(() => {
-		console.log(foldersList)
-	}, [foldersList])
-	useEffect(() => {
 		dispatch(getFolders())	
 	}, [])
 	const addFolder =()=>{
