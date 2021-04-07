@@ -1,4 +1,4 @@
-import {AUTH_ERROR,LOGIN} from '../types'
+import {AUTH_ERROR,LOAD_PERMISSION,LOGIN} from '../types'
 
 
 
@@ -7,6 +7,7 @@ const initialState = {
     isAuthenticated: false,
     token: false,
     loaded: false,
+	permission:null
 }
 
 export default function(state = initialState, action) {
@@ -30,7 +31,11 @@ export default function(state = initialState, action) {
 				isAuthenticated: false,
 				error: payload.err
 			}
-		
+		case LOAD_PERMISSION:
+			return {
+				...state,
+				permission: payload
+			}
 		default: 
 			return state;
 		}

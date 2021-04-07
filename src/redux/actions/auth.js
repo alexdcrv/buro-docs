@@ -1,7 +1,8 @@
-import {LOGIN} from '../types'
-import {innerBackend,  setAuthToken} from '../../components/utils/axios'
+import {LOGIN,LOAD_PERMISSION} from '../types'
+import {innerBackend,  setAuthToken} from '../../utils/axios'
 
 export const login = (formData) => async dispatch  => {
+	console.log(formData)
     try {
         const res = await innerBackend.post('/auth', formData)
         dispatch({
@@ -9,18 +10,31 @@ export const login = (formData) => async dispatch  => {
             payload: res.data
         })
                   setAuthToken(res.data.token);
-                  dispatch(loadUser())
+                  dispatch(loadPermission())
                  
                   
                   
 
         }
       catch (err) {
-        const errors = err.response.data.errors;
-        errors.map(err => {
+        
           alert(err)
-        })            
+              
       
     }
 
 }
+export const loadPermission =()=> async dispatch =>{
+	try {
+        const res = await innerBackend.get('users/permission/mne/zapili')
+        dispatch({
+            type: LOAD_PERMISSION,
+            payload: res.data
+        })    
+        }
+	catch (err) {
+		
+			alert(err)
+	   
+
+}}

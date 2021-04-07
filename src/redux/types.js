@@ -13,3 +13,4 @@ export const CREATE_FILE = 'CREATE_FILE'
 //AUTH
 export const AUTH_ERROR = 'AUTH_ERROR'
 export const LOGIN = 'LOGIN'
+export const LOAD_PERMISSION = 'LOAD_PERMISSION'
