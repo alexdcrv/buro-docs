@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {ContentState, convertFromHTML, convertFromRaw, convertToRaw, EditorState, getDefaultKeyBinding,RichUtils} from 'draft-js'
+import {ContentState, convertFromHTML,  EditorState, getDefaultKeyBinding,RichUtils} from 'draft-js'
 import Editor, { composeDecorators } from '@draft-js-plugins/editor';
 import imageUpload from './fileUpload';
 import createImagePlugin from '@draft-js-plugins/image';

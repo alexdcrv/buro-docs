@@ -44,7 +44,7 @@ function App() {
 
   useEffect(() => {
     setAuthToken(localStorage.token)
-    if (localStorage.token!=undefined) {
+    if (localStorage.token!==undefined) {
         setAuth(true)
         setTimeout(()=>{
           dispatch(loadPermission())

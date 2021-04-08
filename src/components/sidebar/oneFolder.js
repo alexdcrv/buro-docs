@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { fileAdd, getStaticFile } from "../../redux/actions/dataOperations"
 import style from './sidebar.module.css'
