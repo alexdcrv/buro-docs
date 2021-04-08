@@ -17,9 +17,21 @@ function App() {
   const token = useSelector(state => state.auth.token)
   const htmlStatus = useSelector(state => state.dataOperations.htmlStatus)
   const [auth,setAuth]=useState()
+    window.addEventListener('message', event => { 
+      if (event.origin.startsWith('http://localhost:3001')) { 
+        
+        setAuthToken(event.data)
+        setAuth(true)
+        setTimeout(()=>{
+          dispatch(loadPermission())
+        },100)
+      } 
+  }); 
   useEffect(() => {
     if(token) {
-     
+      setTimeout(()=>{
+        dispatch(loadPermission())
+      },100)
       if(localStorage.token){
         // console.log('login')
         setAuth(true)
@@ -46,9 +58,9 @@ function App() {
       <Login/>
     ) : (
     <div className="App">
-      <Sidebar/>
+      <Sidebar permission={permission}/>
       {
-        htmlStatus===2?<TextEditor/>:htmlStatus===1?<StaticContent/>:<div className="File">Выберите файл для просмотра или редактирования</div>
+        htmlStatus===2?<TextEditor />:htmlStatus===1?<StaticContent permission={permission}/>:<div className="File">Выберите файл для просмотра или редактирования</div>
       }
 
     </div>)}

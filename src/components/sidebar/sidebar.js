@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import { folderAdd, getFolders } from "../../redux/actions/fileSystem"
 
 import OneFolder from "./oneFolder"
-const Sidebar =()=>{
+const Sidebar =(permission)=>{
 	const [input, setInput] = useState(false)
 	
 	const dispatch = useDispatch()
@@ -27,13 +27,13 @@ const Sidebar =()=>{
 					foldersList.map((folderN,i)=>{
 						if (foldersList.length !==0){
 							return(
-							<OneFolder folderN={folderN} ind={i} key={i}/>
+							<OneFolder permission={permission} folderN={folderN} ind={i} key={i}/>
 						)
 						}
 						
 					})
 				}
-				<div style={{display:`${input?'none':'flex'}`, marginLeft:'30px'}} className={style.createFolder} onClick={()=>{setInput(true)}}>
+				<div style={{display:`${input||permission==='user'?'none':'flex'}`, marginLeft:'30px'}} className={style.createFolder} onClick={()=>{setInput(true)}}>
 					<img alt='соаздать' style={{width:'20px',marginRight:'9px',marginTop:'5px'}} src='/plus.png'></img>
 					<p>Создать папку</p>
 				</div>

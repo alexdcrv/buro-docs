@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { fileAdd, getStaticFile } from "../../redux/actions/dataOperations"
 import style from './sidebar.module.css'
-const OneFolder=({folderN,ind})=>{
+const OneFolder=({folderN,ind, permission})=>{
 	const dispatch = useDispatch()
 	const [fileInput, setFileInput] = useState(false)
 	const [fileNameInput, setFileNameInput] = useState('')
@@ -37,7 +37,7 @@ const OneFolder=({folderN,ind})=>{
 				}
 			</div>
 			<>
-				<div style={{display:`${selected?'block':'none'}`}}>
+				<div style={{display:`${!selected||permission==='user'?'none':'block'}`}}>
 					<div style={{display:`${fileInput?'none':'flex'}`, marginLeft:'30px'}} className={style.createFolder} onClick={()=>{setFileInput(true)}}>
 						<img alt='соаздать' style={{width:'20px',marginRight:'9px'}} src='/plus.png'></img>
 						<p>Создать файл</p>
