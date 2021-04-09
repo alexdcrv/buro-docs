@@ -31,8 +31,31 @@ export const imageUpload = (file) => async dispatch  => {
 	  } 
   
   }
+  export const getStaticFileSearch = (file) => async dispatch  => {
+	console.log(file)
+	let body ={
+	   filepath:file + '.json'
+	}
   
+	try {
+	  
+		const res = await innerBackend.put(`docs/read`, body) 
+		dispatch({
+			type: GET_ONE_FILE,
+			payload: res.data
+		   
+		})
+		
+  
+	  }
+	  catch (err) {
+		alert('ФАЙЛ УДАЛЕН')
+			
+	  } 
+  
+  }
   export const getStaticFile = (file,dirname) => async dispatch  => {
+	  console.log(dirname+file)
   let body ={
 	 filepath:`${dirname}/${file}` 
   }
@@ -76,6 +99,7 @@ export const fileDetete = (file,dirname) => async dispatch  => {
 	  } 
   
   }
+  
   export const folderDetete = (dirname) => async dispatch  => {
 	console.log(dirname)
 	let body ={

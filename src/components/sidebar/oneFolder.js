@@ -4,18 +4,35 @@ import RecFolder from './oneFolder'
 import { fileAdd, fileDetete, folderDetete, getStaticFile } from "../../redux/actions/dataOperations"
 import { folderAdd } from "../../redux/actions/fileSystem"
 import style from './sidebar.module.css'
-const OneFolder=({folderN,permission})=>{
+import { pushFileToSearch,pushSectionToSearch } from "../../redux/actions/search"
+const OneFolder=({folderN,permission,search})=>{
 	const dispatch = useDispatch()
 	const selectedFile = useSelector(state => state.dataOperations.file)
+
 	const [fileInput, setFileInput] = useState(false)
 	const [folderInput, setFolderInput] = useState('')
 	const [fileNameInput, setFileNameInput] = useState('')
 	const [selected,setSelected] = useState(false)
 	const [selectedDir,setSelectedDir] = useState('')
 
-	// useEffect(()=>{
-	// 	console.log(selectedFile)
-	// },[selectedFile])
+	useEffect(()=>{
+	setTimeout(()=>{
+		folderN.files.map((file) => {
+					console.log('pushFile')
+					dispatch(pushFileToSearch(file,folderN.dirpath))
+					
+				})
+	},1000)
+		
+
+	
+
+		folderN.subdirs.map( section => {
+			console.log('pushSect')
+			dispatch(pushSectionToSearch(section))
+		})	
+
+	},[folderN])
 	const addFile =(dirname)=>{
 		dispatch(fileAdd(fileNameInput,dirname.slice(6)))
 		setFileNameInput('')
@@ -47,21 +64,23 @@ const OneFolder=({folderN,permission})=>{
 		<>
 			<div>
 				<div className={style.folder}onClick={()=>{setSelected(!selected)}} >
-					<img alt='open' src='/openicon.png'style={{width:'10px',transform: `rotate(${selected?'180deg':'90deg'})`}}/>
+					<img alt='open'  src='/openicon.png'style={{width:'10px',transform: `rotate(${selected?'180deg':'90deg'})`}}/>
 					<div style={{marginLeft:'5px'}}>
 						{folderN.dirname}
 					</div>
-					<img alt='del' src='/delete.jpg' onClick={()=>delFolder(folderN.dirpath)} style={{width:'20px',marginLeft:'30px',display: `${selected?'flex':'none'}`}}/>
+					<img alt='del' src='/delete.jpg' onClick={()=>delFolder(folderN.dirpath)} style={{width:'20px',marginLeft:'30px',display: `${!selected||permission==='user'||search?'none':'flex'}`}}/>
 				</div>
 				<div className={style.files} style={{display:`${selected?'block':'none'}` }}>
 					{folderN.subdirs && folderN.subdirs.map((subdir,i)=>{
-						return(<RecFolder permission={permission} folderN={subdir} ind={i} key={i}/>)
+						return(<RecFolder permission={permission} folderN={subdir} search={search} ind={i} key={i}/>)
 						})
 					}
 				</div>
 				<div className={style.files} style={{display:`${selected?'block':'none'}` }}>
 					{folderN.files && folderN.files.map((file,i)=>{
+						
 						return(
+						
 							<li onClick={()=>getFile(file,folderN.dirpath)} tabIndex='0' onKeyUp={(e)=>delFile(e,file,folderN.dirpath)} key={i}  style={{
 									backgroundColor:`${selectedFile.name===file.slice(0, -5)?'rgba(0,0,0, 0.1)':'white'}`,
 									marginRight:'10px',
@@ -76,7 +95,7 @@ const OneFolder=({folderN,permission})=>{
 					}
 				</div>
 				<>
-					<div style={{display:`${!selected||permission==='user'?'none':'block'}`}}>
+					<div style={{display:`${!selected||permission==='user'||search?'none':'block'}`}}>
 						<div style={{display:`${selectedDir?'none':'flex'}`, marginLeft:'16px'}} className={style.createFolder} onClick={()=>{setSelectedDir(true)}}>
 							<img alt='соаздать' style={{width:'20px',marginRight:'9px'}} src='/plus.png'></img>
 							<p>Добавить раздел</p>
@@ -95,7 +114,7 @@ const OneFolder=({folderN,permission})=>{
 					</div>
 
 					
-					<div style={{display:`${!selected||permission==='user'?'none':'block'}`}}>
+					<div style={{display:`${!selected||permission==='user'||search?'none':'block'}`}}>
 						<div style={{display:`${fileInput?'none':'flex'}`, marginLeft:'16px'}} className={style.createFolder} onClick={()=>{setFileInput(true)}}>
 							<img alt='соаздать' style={{width:'20px',marginRight:'9px'}} src='/plus.png'></img>
 							<p>Создать файл</p>
