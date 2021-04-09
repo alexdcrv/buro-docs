@@ -1,5 +1,5 @@
 import { innerBackend } from "../../utils/axios";
-import { CREATE_FILE,SAVE_FILE, EDIT_FILE, GET_ONE_FILE, SEND_IMAGE } from "../types";
+import { CREATE_FILE, DELETE_FILE,SAVE_FILE, EDIT_FILE, GET_ONE_FILE, SEND_IMAGE } from "../types";
 
 
 
@@ -54,6 +54,50 @@ export const imageUpload = (file) => async dispatch  => {
 	} 
 
 }
+export const fileDetete = (file,dirname) => async dispatch  => {
+	console.log(dirname+'/'+file)
+	let body ={
+		filepath: dirname+'/'+file
+	}
+
+	try {
+	
+		const res = await innerBackend.put(`docs/delete`, body)
+		dispatch({
+			type: DELETE_FILE,
+			payload: res.data
+		})
+	
+  
+	  }
+	  catch (err) {
+		alert('ОШИБКА')
+			
+	  } 
+  
+  }
+  export const folderDetete = (dirname) => async dispatch  => {
+	console.log(dirname)
+	let body ={
+		path: dirname
+	}
+
+	try {
+	
+		const res = await innerBackend.put(`docs/delete/dir`, body)
+		dispatch({
+			type: DELETE_FILE,
+			payload: res.data
+		})
+	
+  
+	  }
+	  catch (err) {
+		alert('ОШИБКА')
+			
+	  } 
+  
+  }
   export const fileAdd = (fileNameInput,dirname) => async dispatch  => {
 	let body ={
 		dir: dirname,
@@ -63,7 +107,7 @@ export const imageUpload = (file) => async dispatch  => {
 			html: '',
 			editorState:''
 		},
-		filename: fileNameInput,
+		filename: fileNameInput+'.json',
 		
 	}
 

@@ -18,7 +18,7 @@ function App() {
   const htmlStatus = useSelector(state => state.dataOperations.htmlStatus)
   const [auth,setAuth]=useState()
     window.addEventListener('message', event => { 
-      if (event.origin.startsWith('http://localhost:3001')) { 
+      if (event.origin.startsWith('http://192.168.0.29:3001')) { 
         
         setAuthToken(event.data)
         setAuth(true)

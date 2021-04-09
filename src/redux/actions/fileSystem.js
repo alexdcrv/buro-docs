@@ -6,6 +6,7 @@ import { CREATE_FOLDER, GET_FOLDERS } from "../types";
 
 
 export const folderAdd = (folderInput) => async dispatch  => {
+	console.log(folderInput)
 	let body ={
 		dirname: folderInput
 	}
@@ -30,7 +31,7 @@ export const folderAdd = (folderInput) => async dispatch  => {
 
 	try {
 	
-		const res = await innerBackend.get('docs/directory')
+		const res = await innerBackend.get('docs/recurse')
 		dispatch({
 			type: GET_FOLDERS,
 			payload: res.data
