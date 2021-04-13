@@ -1,5 +1,5 @@
 import { innerBackend } from "../../utils/axios";
-import { CREATE_FILE, DELETE_FILE,SAVE_FILE, EDIT_FILE, GET_ONE_FILE, SEND_IMAGE } from "../types";
+import { CREATE_FILE, DELETE_FILE,SAVE_FILE, EDIT_FILE, GET_ONE_FILE, SEND_IMAGE, SET_STATUS } from "../types";
 
 
 
@@ -54,10 +54,17 @@ export const imageUpload = (file) => async dispatch  => {
 	  } 
   
   }
-  export const getStaticFile = (path) => async dispatch  => {
-
+  export const pageStatus = (status) => async dispatch  => {
+	dispatch({
+		type: SET_STATUS,
+		payload: status
+	   
+	})
+  }
+  export const getStaticFile = (path, fname) => async dispatch  => {
+	// console.log(path+'/'+fname, 'hi path')
   let body ={
-	 filepath:`docs/${path}` 
+	 filepath:`${path}` 
   }
 
   try {
@@ -99,7 +106,7 @@ export const fileDetete = (file,dirname) => async dispatch  => {
 	  } 
   
   }
-  
+
   export const folderDetete = (dirname) => async dispatch  => {
 	console.log(dirname)
 	let body ={
@@ -131,7 +138,7 @@ export const fileDetete = (file,dirname) => async dispatch  => {
 			html: '',
 			editorState:''
 		},
-		filename: fileNameInput+'.json',
+		filename: fileNameInput!=='' ? fileNameInput+'.json' :"Без названия.json",
 		
 	}
 

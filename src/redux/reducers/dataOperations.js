@@ -19,12 +19,13 @@ export default function(state = initialState, action) {
     } = action;
 
     switch(type){
+        
 			case GET_ONE_FILE:
 				return {
 					...state,
-					file: payload,
-					htmlStatus: 1
-				}
+					file: payload,	
+                    htmlStatus: 1
+}
             case SEND_IMAGE:
                 return {
                     ...state,
@@ -39,7 +40,6 @@ export default function(state = initialState, action) {
             case EDIT_FILE:
                 return {
                     ...state,
-
 					htmlStatus:2
                 }
 			// case EDIT_FILE:

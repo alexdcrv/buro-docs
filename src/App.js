@@ -15,6 +15,7 @@ import {
 import { createBrowserHistory } from "history";
 import Login from './components/auth/login';
 import { loadPermission } from './redux/actions/auth';
+import Start from './components/static/start';
 // import { useEffect } from 'react';
 
 function App() {
@@ -22,7 +23,6 @@ function App() {
   const dispatch = useDispatch()
   const permission = useSelector(state => state.auth.permission)
   const token = useSelector(state => state.auth.token)
-  const htmlStatus = useSelector(state => state.dataOperations.htmlStatus)
   const [auth,setAuth]=useState()
     window.addEventListener('message', event => { 
       if (event.origin.startsWith('http://192.168.0.29:3001')) { 
@@ -66,18 +66,20 @@ function App() {
     ) : (
     <div className="App">
       <Router history={history}>
-      <Sidebar history={history} permission={permission}/>
-        {
-          htmlStatus===2?
-          <TextEditor />:
-          htmlStatus===1?
+        <div>
+           <Sidebar history={history} permission={permission}/>
+      
           <Switch>
-            <Route path="/:id" component={StaticContent}/>
+            <Route exact path="/" component={Start}/>
+            <Route exact path="/:path+" component={StaticContent}/>
+
           </Switch>
+        </div>
+         
           
-          :
-          <div className="File">Выберите файл для просмотра или редактирования</div>
-        }
+          
+          
+        
       </Router>
     </div>)}
     </>

@@ -5,6 +5,7 @@ import { fileAdd, fileDetete, folderDetete, getStaticFile } from "../../redux/ac
 import { folderAdd } from "../../redux/actions/fileSystem"
 import style from './sidebar.module.css'
 import { pushFileToSearch,pushSectionToSearch } from "../../redux/actions/search"
+import { Link } from "react-router-dom"
 const OneFolder=({folderN,permission,search,history})=>{
 	const dispatch = useDispatch()
 	const selectedFile = useSelector(state => state.dataOperations.file)
@@ -38,13 +39,14 @@ const OneFolder=({folderN,permission,search,history})=>{
 
 	},[folderN])
 	const addFile =(dirname)=>{
-		dispatch(fileAdd(fileNameInput,dirname.slice(6)))
+		dispatch(fileAdd(fileNameInput.replace(/[-\/\\^$*+?.()|[\]{}]/g, ""),dirname.slice(6)))
 		setFileNameInput('')
 		setFileInput(false)
 	}
 	
 	const addFolder =(dirname)=>{
-		let folderIn = dirname.slice(6)+'/'+folderInput
+		let fname = folderInput!=='' ? folderInput.replace(/[-\/\\^$*+?.()|[\]{}]/g, "") : 'Без названия'
+		let folderIn = dirname.slice(6)+'/'+ fname
 		dispatch(folderAdd(folderIn))
 		setFolderInput('')
 		setSelectedDir(false)
@@ -61,7 +63,10 @@ const OneFolder=({folderN,permission,search,history})=>{
 	}
 
 	const getFile =(file, dirname)=>{
-		history.push(`../${dirname.slice(6)+'/'+file}`)
+
+		console.log('hi')
+		let path = dirname.slice(6)+'/'+file
+		dispatch(getStaticFile(path))
 	}
 
 	return(
@@ -85,7 +90,8 @@ const OneFolder=({folderN,permission,search,history})=>{
 						
 						return(
 						
-							<li onClick={()=>getFile(file,folderN.dirpath)} tabIndex='0' onKeyUp={(e)=>delFile(e,file,folderN.dirpath)} key={i}  style={{
+							<Link to={`../../../../../${folderN.dirpath.slice(6)+'/'+file}`} style={{textDecoration:'none', color:'black'}}>
+								<li onClick={()=>getFile(file,folderN.dirpath)} tabIndex='0' onKeyUp={(e)=>delFile(e,file,folderN.dirpath)} key={i}  style={{
 									backgroundColor:`${selectedFile.name===file.slice(0, -5)?'rgba(0,0,0, 0.1)':'white'}`,
 									marginRight:'10px',
 									padding:'7px',
@@ -94,6 +100,7 @@ const OneFolder=({folderN,permission,search,history})=>{
 								}}>
 								{file.slice(0, -5)}
 							</li>
+							</Link>
 						)
 					})
 					}
