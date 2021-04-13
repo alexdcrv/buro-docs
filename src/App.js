@@ -61,11 +61,21 @@ function App() {
   },[localStorage.token])
   return (
     <>
+    <Router history={history}>
     {!auth||!permission ? (
-      <Login/>
+      <>
+
+        <Route exact path="/" component={Login} />
+        <Route
+                exact
+                path="/public/:path+"
+                component={StaticContent}
+              />
+
+      </>
     ) : (
     <div className="App">
-      <Router history={history}>
+      
         <div>
            <Sidebar history={history} permission={permission}/>
       
@@ -80,8 +90,9 @@ function App() {
           
           
         
-      </Router>
-    </div>)}
+     
+      </div>)} 
+    </Router>
     </>
   );
 }

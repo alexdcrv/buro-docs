@@ -79,7 +79,7 @@ export const imageUpload = (file) => async dispatch  => {
 
 	}
 	catch (err) {
-	  alert('ОШИБКА')
+	//   alert('ОШИБКА')
 		  
 	} 
 
@@ -159,7 +159,7 @@ export const fileDetete = (file,dirname) => async dispatch  => {
   
   }
   export const fileSave = (dirname,fileName,editorState,html) => async dispatch  => {
-
+	console.log(dirname,fileName,editorState,html)
 	let body ={
 		dir: dirname,
 		text: {
@@ -168,7 +168,7 @@ export const fileDetete = (file,dirname) => async dispatch  => {
 			html: html,
 			editorState: editorState
 		},
-		filename: fileName,
+		filename: fileName+'.json',
 		
 	}
 
