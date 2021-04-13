@@ -134,7 +134,7 @@ const TextEditor =()=> {
 	  );
 	}
 
-	const toggleInlineStyle=(inlineStyle)=> {
+	const toggleInlineStyle =(inlineStyle)=> {
 	  onChange(
 		RichUtils.toggleInlineStyle(
 		  editorState,

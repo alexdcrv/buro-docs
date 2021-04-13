@@ -36,11 +36,8 @@ const ImageAdd=(props)=> {
 
 		return (
 		<div className={styles.addImage}>
-			<div
-			className={styles.button}
-			onMouseUp={onPopoverClick}
-	
-			>
+			<div className={styles.button}
+			onMouseUp={onPopoverClick}>
 			Добавить изображение
 			</div>
 			<div className={styles.popover} style={{

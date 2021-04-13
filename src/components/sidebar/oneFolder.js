@@ -16,13 +16,14 @@ const OneFolder=({folderN,permission,search})=>{
 	const [selectedDir,setSelectedDir] = useState('')
 
 	useEffect(()=>{
-	setTimeout(()=>{
+
 		folderN.files.map((file) => {
+				
 					console.log('pushFile')
 					dispatch(pushFileToSearch(file,folderN.dirpath))
 					
 				})
-	},1000)
+
 		
 
 	
