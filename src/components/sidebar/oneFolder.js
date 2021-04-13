@@ -5,10 +5,10 @@ import { fileAdd, fileDetete, folderDetete, getStaticFile } from "../../redux/ac
 import { folderAdd } from "../../redux/actions/fileSystem"
 import style from './sidebar.module.css'
 import { pushFileToSearch,pushSectionToSearch } from "../../redux/actions/search"
-const OneFolder=({folderN,permission,search})=>{
+const OneFolder=({folderN,permission,search,history})=>{
 	const dispatch = useDispatch()
 	const selectedFile = useSelector(state => state.dataOperations.file)
-
+	const allFiles = useSelector(state => state.search.files)
 	const [fileInput, setFileInput] = useState(false)
 	const [folderInput, setFolderInput] = useState('')
 	const [fileNameInput, setFileNameInput] = useState('')
@@ -18,9 +18,12 @@ const OneFolder=({folderN,permission,search})=>{
 	useEffect(()=>{
 
 		folderN.files.map((file) => {
-				
-					console.log('pushFile')
+				if(typeof allFiles !== 'number'&&!allFiles.includes(folderN.dirpath+file.slice(0, -6))){
+					// console.log(allFiles)
+					// console.log(folderN.dirpath+file)
 					dispatch(pushFileToSearch(file,folderN.dirpath))
+				}
+					
 					
 				})
 
@@ -58,7 +61,7 @@ const OneFolder=({folderN,permission,search})=>{
 	}
 
 	const getFile =(file, dirname)=>{
-		dispatch(getStaticFile(file, dirname.slice(6)))
+		history.push(`../${dirname.slice(6)+'/'+file}`)
 	}
 
 	return(
@@ -107,7 +110,7 @@ const OneFolder=({folderN,permission,search})=>{
 							placeholder='Введите название раздела'
 							value={folderInput}
 							onChange={(e)=>{setFolderInput(e.target.value)}}
-							onKeyPress={(e)=>e.key==='Enter'?addFolder(folderN.dirname):''}/>
+							onKeyPress={(e)=>e.key==='Enter'?addFolder(folderN.dirpath):''}/>
 						</div>
 						<p onClick={()=>addFolder(folderN.dirpath)} className={style.saveButton}
 							style={{display:`${!selectedDir?'none':'block'}`}}>Сохранить
@@ -126,7 +129,7 @@ const OneFolder=({folderN,permission,search})=>{
 							placeholder='Введите название файла'
 							value={fileNameInput}
 							onChange={(e)=>{setFileNameInput(e.target.value)}}
-							onKeyPress={(e)=>e.key==='Enter'?addFile(folderN.dirname):''}/>
+							onKeyPress={(e)=>e.key==='Enter'?addFile(folderN.dirpath):''}/>
 						</div>
 						<p onClick={()=>addFile(folderN.dirpath)} className={style.saveButton}
 							style={{display:`${!fileInput?'none':'block'}`}}>Сохранить

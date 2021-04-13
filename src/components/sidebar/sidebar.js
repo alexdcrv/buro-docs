@@ -7,7 +7,7 @@ import OneFolder from "./oneFolder"
 import { getStaticFileSearch } from "../../redux/actions/dataOperations"
 
 // import { fileDetete, folderDetete } from "../../redux/actions/dataOperations"
-const Sidebar =(permission)=>{
+const Sidebar =({permission, history})=>{
 	const [input, setInput] = useState(false)
 	const [inputSearch, setInputSearch] = useState('')
 	const [inputDir, setInputDir] = useState('')
@@ -97,6 +97,7 @@ const Sidebar =(permission)=>{
 			{foldersList.map((folderN,i)=>{
 				return(
 					<OneFolder 
+						history={history}
 						search={false}
 						permission={permission} 
 						folderN={folderN}

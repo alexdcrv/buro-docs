@@ -54,10 +54,10 @@ export const imageUpload = (file) => async dispatch  => {
 	  } 
   
   }
-  export const getStaticFile = (file,dirname) => async dispatch  => {
-	  console.log(dirname+file)
+  export const getStaticFile = (path) => async dispatch  => {
+
   let body ={
-	 filepath:`${dirname}/${file}` 
+	 filepath:`docs/${path}` 
   }
 
   try {

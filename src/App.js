@@ -6,12 +6,19 @@ import Sidebar from './components/sidebar/sidebar';
 import StaticContent from './components/static/static';
 import { useEffect, useState } from 'react';
 import { setAuthToken } from './utils/axios';
-
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  
+} from "react-router-dom";
+import { createBrowserHistory } from "history";
 import Login from './components/auth/login';
 import { loadPermission } from './redux/actions/auth';
 // import { useEffect } from 'react';
 
 function App() {
+  const history = createBrowserHistory();
   const dispatch = useDispatch()
   const permission = useSelector(state => state.auth.permission)
   const token = useSelector(state => state.auth.token)
@@ -58,11 +65,20 @@ function App() {
       <Login/>
     ) : (
     <div className="App">
-      <Sidebar permission={permission}/>
-      {
-        htmlStatus===2?<TextEditor />:htmlStatus===1?<StaticContent permission={permission}/>:<div className="File">Выберите файл для просмотра или редактирования</div>
-      }
-
+      <Router history={history}>
+      <Sidebar history={history} permission={permission}/>
+        {
+          htmlStatus===2?
+          <TextEditor />:
+          htmlStatus===1?
+          <Switch>
+            <Route path="/:id" component={StaticContent}/>
+          </Switch>
+          
+          :
+          <div className="File">Выберите файл для просмотра или редактирования</div>
+        }
+      </Router>
     </div>)}
     </>
   );
