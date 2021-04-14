@@ -6,7 +6,6 @@ import { CREATE_FOLDER, GET_FOLDERS } from "../types";
 
 
 export const folderAdd = (folderInput) => async dispatch  => {
-	console.log(folderInput)
 	let body ={
 		dirname: folderInput
 	}

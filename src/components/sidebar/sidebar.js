@@ -26,10 +26,6 @@ const Sidebar =({permission, history})=>{
 		dispatch(getFolders())	
 	}, [])
 
-	useEffect(() => {
-		
-		console.log(searchDir)	
-	}, [searchDir])
 
 	const regexEscape =(str)=> {
 		return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
@@ -46,7 +42,6 @@ const Sidebar =({permission, history})=>{
 	}
 	const regDirSearch =(array, string)=> {
 		setInputDir(string)
-		console.log(array,string)
 		let responce = []
 		let regex = new RegExp (string, "g")
 		for(let el of array) {
@@ -66,15 +61,10 @@ const Sidebar =({permission, history})=>{
 		if(typeof allFiles !== 'number'){
 			
 			setSearchFiles(allFiles)
-			console.log(allFiles,'pushFilestep4')
 		}},100)
 		
 		
 	},[allFiles])
-	useEffect(()=>{
-		console.log(searchSections)
-		
-	},[searchSections])
 	useEffect(()=>{
 		if(typeof allSections !== 'number'){
 			setSearchSections(allSections)

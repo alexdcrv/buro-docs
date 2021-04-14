@@ -13,14 +13,14 @@ export default function(state = initialState, action) {
 
     switch(type){
 		case DELETE_FILE:
-			console.log('clearall', initialState.files)
+
 			return {
 				
 				files:[],
 				sections:[],
 			}
         case PUSH_FILES_TO_SEARCH :
-			console.log('pushFilestep3',initialState.files)
+
             return {
                 ...state,
                 files: initialState.files.push(file),

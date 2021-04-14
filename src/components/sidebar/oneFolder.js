@@ -33,7 +33,7 @@ const OneFolder=({folderN,permission,search,history, subdir})=>{
 	
 
 		folderN.subdirs.map( section => {
-			console.log('pushSect')
+			// console.log('pushSect')
 			dispatch(pushSectionToSearch(section))
 		})	
 
@@ -64,7 +64,7 @@ const OneFolder=({folderN,permission,search,history, subdir})=>{
 
 	const getFile =(file, dirname)=>{
 
-		console.log('hi')
+		// console.log('hi')
 		let path = dirname.slice(6)+'/'+file
 		dispatch(getStaticFile(path))
 	}

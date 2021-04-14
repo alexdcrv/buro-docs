@@ -2,7 +2,6 @@ import {LOGIN,LOAD_PERMISSION} from '../types'
 import {innerBackend,  setAuthToken} from '../../utils/axios'
 
 export const login = (formData) => async dispatch  => {
-	console.log(formData)
     try {
         const res = await innerBackend.post('/auth', formData)
         dispatch({
