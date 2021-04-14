@@ -105,7 +105,7 @@ const OneFolder=({folderN,permission,search,history, subdir})=>{
 				<>
 					<div style={{display:`${!selected||permission!=='admin'||search?'none':'block'}`}}>
 						<div style={{display:`${selectedDir?'none':'flex'}`}} className={style.createFolder} onClick={()=>{setSelectedDir(true)}}>
-							<img alt='соаздать' style={{width:'15px',marginRight:'9px'}} src='/plus.png'></img>
+							<img alt='соаздать' style={{width:'13px',marginRight:'9px'}} src='/plus.png'></img>
 							<p>Добавить раздел</p>
 						</div>
 						<div style={{display:`${!selectedDir?'none':'flex'}`, padding:'0px'}}>
@@ -124,7 +124,7 @@ const OneFolder=({folderN,permission,search,history, subdir})=>{
 					
 					<div style={{display:`${!selected||permission!=='admin'||search?'none':'block'}`}}>
 						<div style={{display:`${fileInput?'none':'flex'}`,marginBottom: '20px'}} className={style.createFolder} onClick={()=>{setFileInput(true)}}>
-							<img alt='соаздать' style={{width:'15px',marginRight:'9px'}} src='/plus.png'></img>
+							<img alt='соаздать' style={{width:'13px',marginRight:'9px'}} src='/plus.png'></img>
 							<p >Создать файл</p>
 						</div>
 						<div style={{display:`${!fileInput?'none':'flex'}`, padding:'5px'}}>

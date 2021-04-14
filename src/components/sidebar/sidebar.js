@@ -144,7 +144,7 @@ const Sidebar =({permission, history})=>{
 			})
 			}
 			<div style={{display:`${input||permission==='user'?'none':'flex'}`, marginLeft:'20px'}} className={style.createFolder} onClick={()=>{setInput(true)}}>
-				<img alt='соаздать' style={{width:'15px',marginRight:'9px',marginTop:'5px'}} src='/plus.png'></img>
+				<img alt='соаздать' style={{width:'13px',marginRight:'9px',marginTop:'5px'}} src='/plus.png'></img>
 				<p>Создать папку</p>
 			</div>
 			<div style={{display:`${!input?'none':'flex'}`, padding:'5px'}}>

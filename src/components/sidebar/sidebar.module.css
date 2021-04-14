@@ -34,12 +34,12 @@
 	align-items: center;
 	cursor: pointer;
 	margin-left: 0px;
-	font-size: 14px;
+	font-size: 13px;
 	height: 25px;
-	margin-left:45px;
+	margin-left:55px;
 	font-family: SuisseIntlLight;
 	font-style: italic;
-	color: black;
+	color: #7B7B7B;
 }
 .fileName {
 	width: 100%;
