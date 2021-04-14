@@ -1,15 +1,22 @@
 .container {
 	position: fixed;
 	height: 100vh;
-	width: 250px!important;
+	width: 370px!important;
 	margin-top:0;
 	max-width: 400px;
 	overflow-y: scroll;
-
+	font-size: 16px;
 	border-right:1px solid grey;
-	font-family:SuisseIntlLight;
+	font-family:SuisseIntlRegular;
 	padding-right:15px;
-	
+	color: #506E95;
+}
+.containerName {
+	font-family: SuisseIntlLight;
+	font-size: 16px;
+	color: black;
+	padding-top: 40px;
+	padding-left: 20px;
 }
 .container::-webkit-scrollbar {
 	width: 0px;
@@ -18,9 +25,9 @@
 .saveButton{
 	margin-top:5px;
 	font-size:12px;
-	text-align:right;
+	text-align:left;
 	cursor:pointer;
-	margin-right: 50px;
+	margin-left: 65px;
 }
 .createFolder {
 	display: flex;
@@ -29,10 +36,29 @@
 	margin-left: 0px;
 	font-size: 14px;
 	height: 25px;
+	margin-left:45px;
+	font-family: SuisseIntlLight;
+	font-style: italic;
+	color: black;
+}
+.fileName {
+	width: 100%;
+	margin: 0;
+	color: #506E95;
+	padding:7px;
+	padding-left: 33px;
+	margin-left:3px;
+	outline:none;
+	font-family: SuisseIntlLight;
 }
 .searchInput{
-	margin-left: 10%;
+	margin-left: 20px;
 	width: 80%;
+	font-size: 16px;
+	border-radius: 5px;
+	padding: 5px;
+	outline: none;
+	border: 1px solid #8FA7C6;
 }
 .resSearch:first-child {
 	border-top: 1px solid black;
@@ -49,12 +75,13 @@
 }
 .folder {
 	display:flex;
-	padding:7px;
 	align-items:center;
-	font-family:SuisseIntlLight;
 	cursor: pointer;
+	height: 63px;
+	padding-left: 23px;
+	
 }
 .files {
-	margin-left:15px;
+	padding-left:15px;
 	cursor: pointer;
 }

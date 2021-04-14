@@ -83,10 +83,19 @@ const Sidebar =({permission, history})=>{
 		
 		
 	},[allSections])
-	const addFolder =()=>{
-		dispatch(folderAdd(folderInput))
-		setFolderInput('')
-		setInput(false)
+	const addFolderSave =(e)=>{
+			dispatch(folderAdd(folderInput))
+			setFolderInput('')
+			setInput(false)
+	
+	}
+	const addFolder =(e)=>{
+		if(e.key=='Enter'){
+			dispatch(folderAdd(folderInput))
+			setFolderInput('')
+			setInput(false)
+		}
+	
 	}
 
 	const getFile =(file)=>{
@@ -94,32 +103,7 @@ const Sidebar =({permission, history})=>{
 	}
 	return(
 		<div className={style.container} >
-			{foldersList.map((folderN,i)=>{
-				return(
-					<OneFolder 
-						history={history}
-						search={false}
-						permission={permission} 
-						folderN={folderN}
-						ind={i} key={i}/>
-				)
-			})
-			}
-			<div style={{display:`${input||permission==='user'?'none':'flex'}`, marginLeft:'5px'}} className={style.createFolder} onClick={()=>{setInput(true)}}>
-				<img alt='соаздать' style={{width:'20px',marginRight:'9px',marginTop:'5px'}} src='/plus.png'></img>
-				<p>Создать папку</p>
-			</div>
-			<div style={{display:`${!input?'none':'flex'}`, padding:'5px'}}>
-			<input 
-				style={{marginLeft:'50px'}}
-				placeholder='Введите название папки'
-				value={folderInput}
-				onChange={(e)=>{setFolderInput(e.target.value)}}
-				onKeyPress={(e)=>e.key==='Enter'?addFolder:''}/>
-			</div>
-			<div onClick={addFolder} className={style.saveButton}
-				style={{display:`${!input?'none':'block'}`}}>Сохранить
-			</div>
+			<div className={style.containerName}>Документация БЮРО82</div>
 			<div style={{marginTop:'20px'}}>
 				<input className={style.searchInput}
 				placeholder="Поиск файлов"
@@ -133,12 +117,10 @@ const Sidebar =({permission, history})=>{
 					)
 				})}
 			</div>
-			<div style={{marginTop:'20px'}}>
+			<div style={{marginTop:'10px',marginBottom:'20px'}}>
 				<input className={style.searchInput}
 					placeholder="Поиск разделов"
-				 	onChange={(e)=>{
-						regDirSearch(searchSections, regexEscape(e.target.value))
-				}}/>
+				 	onChange={(e)=>{regDirSearch(searchSections, regexEscape(e.target.value))}}/>
 				{searchDir && searchDir.map((el,i)=>{
 					if (inputDir.length>=2)
 					return (
@@ -150,6 +132,33 @@ const Sidebar =({permission, history})=>{
 					)
 				})}
 			</div>
+			{foldersList.map((folderN,i)=>{
+				return(
+					<OneFolder 
+						history={history}
+						search={false}
+						permission={permission} 
+						folderN={folderN}
+						ind={i} key={i}/>
+				)
+			})
+			}
+			<div style={{display:`${input||permission==='user'?'none':'flex'}`, marginLeft:'20px'}} className={style.createFolder} onClick={()=>{setInput(true)}}>
+				<img alt='соаздать' style={{width:'15px',marginRight:'9px',marginTop:'5px'}} src='/plus.png'></img>
+				<p>Создать папку</p>
+			</div>
+			<div style={{display:`${!input?'none':'flex'}`, padding:'5px'}}>
+			<input 
+				style={{marginLeft:'50px'}}
+				placeholder='Введите название папки'
+				value={folderInput}
+				onChange={(e)=>{setFolderInput(e.target.value)}}
+				onKeyPress={(e)=>addFolder(e)}/>
+			</div>
+			<div onClick={addFolderSave} className={style.saveButton}
+				style={{display:`${!input?'none':'block'}`}}>Сохранить
+			</div>
+			
 		</div>
 		
 	)
