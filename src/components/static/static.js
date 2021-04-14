@@ -26,7 +26,7 @@ const StaticContent =({match,history})=>{
 			 <div className={styles.container}>
 			
 				<div>
-					<div className={styles.edit} style={{display:`${permission==='admin'?'block':'none'}`}} onClick={editFile}><img alt='/' className={styles.img} src='/edit1.jpg'></img>Редактировать</div>
+					<div className={styles.edit} style={{display:`${permission==="admin"?'block':'none'}`}} onClick={editFile}><img alt='/' className={styles.img} src='/edit1.jpg'></img>Редактировать</div>
 					{file.html!==''?
 					<div>
 						<h1 style={{fontSize:'48px'}}>{file.name}</h1>

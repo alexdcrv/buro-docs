@@ -34,7 +34,7 @@ export default function(state = initialState, action) {
 		case LOAD_PERMISSION:
 			return {
 				...state,
-				permission: payload
+				permission: payload.permission
 			}
 		default: 
 			return state;

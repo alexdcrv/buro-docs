@@ -77,7 +77,7 @@ const OneFolder=({folderN,permission,search,history})=>{
 					<div style={{marginLeft:'5px'}}>
 						{folderN.dirname}
 					</div>
-					<img alt='del' src='/delete.jpg' onClick={()=>delFolder(folderN.dirpath)} style={{width:'20px',marginLeft:'30px',display: `${!selected||permission==='user'||search?'none':'flex'}`}}/>
+					<img alt='del' src='/delete.jpg' onClick={()=>delFolder(folderN.dirpath)} style={{width:'20px',marginLeft:'30px',display: `${!selected||permission!=='admin'||search?'none':'flex'}`}}/>
 				</div>
 				<div className={style.files} style={{display:`${selected?'block':'none'}` }}>
 					{folderN.subdirs && folderN.subdirs.map((subdir,i)=>{
@@ -106,7 +106,7 @@ const OneFolder=({folderN,permission,search,history})=>{
 					}
 				</div>
 				<>
-					<div style={{display:`${!selected||permission==='user'||search?'none':'block'}`}}>
+					<div style={{display:`${!selected||permission!=='admin'||search?'none':'block'}`}}>
 						<div style={{display:`${selectedDir?'none':'flex'}`, marginLeft:'16px'}} className={style.createFolder} onClick={()=>{setSelectedDir(true)}}>
 							<img alt='соаздать' style={{width:'20px',marginRight:'9px'}} src='/plus.png'></img>
 							<p>Добавить раздел</p>
@@ -125,7 +125,7 @@ const OneFolder=({folderN,permission,search,history})=>{
 					</div>
 
 					
-					<div style={{display:`${!selected||permission==='user'||search?'none':'block'}`}}>
+					<div style={{display:`${!selected||permission!=='admin'||search?'none':'block'}`}}>
 						<div style={{display:`${fileInput?'none':'flex'}`, marginLeft:'16px'}} className={style.createFolder} onClick={()=>{setFileInput(true)}}>
 							<img alt='соаздать' style={{width:'20px',marginRight:'9px'}} src='/plus.png'></img>
 							<p>Создать файл</p>
