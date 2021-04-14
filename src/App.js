@@ -25,7 +25,7 @@ function App() {
   const token = useSelector(state => state.auth.token)
   const [auth,setAuth]=useState()
     window.addEventListener('message', event => { 
-      if (event.origin.startsWith('http://192.168.0.29:3001')) { 
+      if (event.origin.startsWith(process.env.REACT_APP_IP_PLATFORM)) { 
         
         setAuthToken(event.data)
         setAuth(true)
