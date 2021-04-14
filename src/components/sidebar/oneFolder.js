@@ -72,8 +72,8 @@ const OneFolder=({folderN,permission,search,history, subdir})=>{
 	return(
 		<>
 			<div>
-				<div className={style.folder} style={{backgroundColor:`${selected?'rgba(12,93,255, 0.05)':'rgba(12,93,255, 0)'}`, height:`${subdir?'40px':'63px'}`, fontFamily:`${subdir?'SuisseIntlLight':'SuisseIntlRegular'}`}} onClick={()=>{setSelected(!selected)}} >
-					<img alt='del' src='/delete.png' onClick={()=>delFolder(folderN.dirpath)} style={{width:'8px',display: `${permission!=='admin'||search?'none':'flex'}`, marginRight:'10px'}}/>
+				<div className={style.folder} style={{ height:`${subdir?'40px':'63px'}`, fontFamily:`${subdir?'SuisseIntlLight':'SuisseIntlRegular'}`}} onClick={()=>{setSelected(!selected)}} >
+					<img alt='del' src='/delete.png' onClick={()=>delFolder(folderN.dirpath)} style={{width:'8px',display: `${!selected||permission!=='admin'||search?'none':'flex'}`, marginRight:'10px'}}/>
 					<div style={{marginLeft:'5px',width:'220px'}}>
 						{folderN.dirname}
 					</div>

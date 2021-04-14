@@ -81,6 +81,9 @@
 	padding-left: 23px;
 	
 }
+.folder:hover {
+	background-color: rgba(12,93,255, 0.05)
+}
 .files {
 	padding-left:15px;
 	cursor: pointer;
