@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import RecFolder from './oneFolder'
-import { fileAdd, fileDetete, folderDetete, getStaticFile } from "../../redux/actions/dataOperations"
+import { fileAdd, fileDetete, folderDetete, getStaticFile, selectDelete } from "../../redux/actions/dataOperations"
 import { folderAdd } from "../../redux/actions/fileSystem"
 import style from './sidebar.module.css'
+import Confirm from './confirm.js'
 import { pushFileToSearch,pushSectionToSearch } from "../../redux/actions/search"
 import { Link } from "react-router-dom"
 const OneFolder=({folderN,permission,search,history, subdir})=>{
@@ -51,15 +52,37 @@ const OneFolder=({folderN,permission,search,history, subdir})=>{
 		setFolderInput('')
 		setSelectedDir(false)
 	}
-
-	const delFile =(e, file, dirname)=>{
+	const delWindow =(e, file , dirname )=>{
+		let info ={
+			dirname:dirname,
+			file:file
+		}
 		if(e.code == "Delete") {
-			dispatch(fileDetete(file, dirname.slice(6)))
+			dispatch(selectDelete(info))
 		}
 	}
-
+	const delWindowClick =(file, dirname)=>{
+		let info ={
+			dirname:dirname,
+			file:file
+		}
+		dispatch(selectDelete(info))
+	}
+	// const delFile =(e, file, dirname)=>{
+	// 	if(e.code == "Delete") {
+	// 		dispatch(fileDetete(file, dirname.slice(6)))
+	// 	}
+	// }
+	// const delFileClick =( file, dirname)=>{
+	// 	dispatch(fileDetete(file, dirname.slice(6)))
+		
+	// }
 	const delFolder =(dirpath)=>{
-		dispatch(folderDetete(dirpath.slice(6)))
+		let info ={
+			dirname:dirpath,
+			file:null
+		}
+		dispatch(selectDelete(info))
 	}
 
 	const getFile =(file, dirname)=>{
@@ -72,6 +95,7 @@ const OneFolder=({folderN,permission,search,history, subdir})=>{
 	return(
 		<>
 			<div>
+			
 				<div className={style.folder} style={{ height:`${subdir?'40px':'63px'}`, fontFamily:`${subdir?'SuisseIntlLight':'SuisseIntlRegular'}`}} onClick={()=>{setSelected(!selected)}} >
 					<img alt='del' src='/delete.png' onClick={()=>delFolder(folderN.dirpath)} style={{width:'8px',display: `${!selected||permission!=='admin'||search?'none':'flex'}`, marginRight:'10px'}}/>
 					<div style={{marginLeft:'5px',width:'220px'}}>
@@ -90,14 +114,21 @@ const OneFolder=({folderN,permission,search,history, subdir})=>{
 					{folderN.files && folderN.files.map((file,i)=>{
 						
 						return(
-						
-							<Link to={`../../../../../${folderN.dirpath.slice(6)+'/'+file}`} style={{textDecoration:'none', color:'black'}}>
-								<p onClick={()=>getFile(file,folderN.dirpath)} tabIndex='0' onKeyUp={(e)=>delFile(e,file,folderN.dirpath)} key={i} className={style.fileName} style={{
-									backgroundColor:`${selectedFile.name===file.slice(0, -5)?'rgba(12,93,255, 0.05)':'rgba(12,93,255, 0)'}`,
-								}}>
-								{file.slice(0, -5)}
-							</p>
-							</Link>
+							<div  style={{
+								backgroundColor:`${selectedFile.name===file.slice(0, -5)?'rgba(12,93,255, 0.05)':'rgba(12,93,255, 0)'}`,
+								display:'flex',alignItems:'center',paddingLeft: '10px'
+							}}>
+								{selectedFile.name===file.slice(0, -5)?<img alt='del' src='/delete.png' onClick={(e)=>delWindowClick(file,folderN.dirpath)}
+								 style={{width:'8px',display: `${!selected||permission!=='admin'||search?'none':'flex'}`, marginRight:'10px'}}/>:''}
+								<Link to={`../../../../../${folderN.dirpath.slice(6)+'/'+file}`} style={{textDecoration:'none', color:'black'}}>
+									
+									<div onClick={()=>getFile(file,folderN.dirpath)} tabIndex='0' onKeyUp={(e)=>delWindow(e,file,folderN.dirpath)} key={i} className={style.fileName}>
+									
+									{file.slice(0, -5)}
+									</div>
+								</Link>
+							</div>
+							
 						)
 					})
 					}

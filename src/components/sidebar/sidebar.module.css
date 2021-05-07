@@ -10,6 +10,7 @@
 	font-family:SuisseIntlRegular;
 	padding-right:15px;
 	color: #506E95;
+	z-index: 99;
 }
 .containerName {
 	font-family: SuisseIntlLight;
@@ -46,10 +47,32 @@
 	margin: 0;
 	color: #506E95;
 	padding:7px;
-	padding-left: 33px;
+	padding-left: 3px;
 	margin-left:3px;
 	outline:none;
 	font-family: SuisseIntlLight;
+}
+.confirm_back {
+	background-color: rgba(76, 95, 134, 0.24);
+	width: 100vw;
+	height: 100vh;
+	position: absolute;
+	top:0;
+	left:0;
+	z-index: 99999999999999;
+}
+.confirm_window {
+	width: 300px;
+	position: absolute;
+	left: 50vw;
+	transform: translateX(-50%);
+	top:35vh;
+	background-color: white;
+	border-radius: 5px;
+	height: 100px;
+	text-align: center;
+	font-family: SuisseIntlLight;
+	padding: 10px;
 }
 .searchInput{
 	margin-left: 20px;

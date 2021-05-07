@@ -16,6 +16,7 @@ import { createBrowserHistory } from "history";
 import Login from './components/auth/login';
 import { loadPermission } from './redux/actions/auth';
 import Start from './components/static/start';
+import Confirm from './components/sidebar/confirm';
 // import { useEffect } from 'react';
 
 function App() {
@@ -23,8 +24,10 @@ function App() {
   const dispatch = useDispatch()
   const permission = useSelector(state => state.auth.permission)
   const token = useSelector(state => state.auth.token)
+  const info = useSelector(state => state.dataOperations.info)
   const [auth,setAuth]=useState()
     window.addEventListener('message', event => { 
+      console.log(process.env.REACT_APP_IP_PLATFORM)
       if (event.origin.startsWith(process.env.REACT_APP_IP_PLATFORM)) { 
         
         setAuthToken(event.data)
@@ -75,7 +78,7 @@ function App() {
       </>
     ) : (
     <div className="App">
-      
+        {info!==null?<Confirm></Confirm>:''}
         <div>
            <Sidebar history={history} permission={permission}/>
       

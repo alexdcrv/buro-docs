@@ -12,6 +12,7 @@ export const SEND_HTML = 'SEND_HTML'
 export const EDIT_FILE = 'EDIT_FILE'
 export const CREATE_FILE = 'CREATE_FILE'
 export const DELETE_FILE= 'DELETE_FILE'
+export const SELECT= 'SELECT'
 //AUTH
 export const AUTH_ERROR = 'AUTH_ERROR'
 export const LOGIN = 'LOGIN'

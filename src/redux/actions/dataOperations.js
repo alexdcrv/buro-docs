@@ -1,5 +1,5 @@
 import { innerBackend } from "../../utils/axios";
-import { CREATE_FILE, DELETE_FILE,SAVE_FILE, EDIT_FILE, GET_ONE_FILE, SEND_IMAGE, SET_STATUS } from "../types";
+import { SELECT, CREATE_FILE, DELETE_FILE,SAVE_FILE, EDIT_FILE, GET_ONE_FILE, SEND_IMAGE, SET_STATUS } from "../types";
 
 
 
@@ -82,6 +82,12 @@ export const imageUpload = (file) => async dispatch  => {
 		  
 	} 
 
+}
+export const selectDelete = (info) => async dispatch => {
+	dispatch({
+		type: SELECT,
+		payload: info
+	})
 }
 export const fileDetete = (file,dirname) => async dispatch  => {
 	let body ={

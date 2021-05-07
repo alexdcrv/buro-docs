@@ -5,6 +5,7 @@ import { folderAdd, getFolders } from "../../redux/actions/fileSystem"
 
 import OneFolder from "./oneFolder"
 import { getStaticFileSearch } from "../../redux/actions/dataOperations"
+import Confirm from "./confirm"
 
 // import { fileDetete, folderDetete } from "../../redux/actions/dataOperations"
 const Sidebar =({permission, history})=>{
